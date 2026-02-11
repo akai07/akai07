@@ -6,21 +6,10 @@
 
 <div align="center">
 
-<!-- HERO SECTION: LOGOS & BRANDING -->
-<table>
-  <tr>
-    <td align="center" width="50%">
-      <a href="https://kaischool.app">
-        <img src="Kaischoollogo.svg" width="180" height="180" alt="KaiSchool Logo" />
-      </a>
-    </td>
-    <td align="center" width="50%">
-      <a href="https://kaibot.app">
-        <img src="Kaibotlogo.svg" width="240" height="120" alt="KaiBot Logo" />
-      </a>
-    </td>
-  </tr>
-</table>
+<!-- HERO SECTION: ADVANCED ANIMATED HEADER -->
+<div align="center">
+  <img src="profile-header.svg" width="100%" alt="Kai Ecosystem Animated Header" />
+</div>
 
 <br />
 
