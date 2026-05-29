@@ -5,17 +5,13 @@ def read_file(path):
         return f.read()
 
 def extract_svg_content(svg_str):
-    # Extract viewBox
     viewbox_match = re.search(r'viewBox="([^"]+)"', svg_str)
     viewbox = viewbox_match.group(1) if viewbox_match else "0 0 100 100"
     
-    # Extract inner content (everything between <svg> and </svg>)
-    # Simple parsing: find first > after <svg and last </svg>
     start_tag_end = svg_str.find('>')
     svg_start = svg_str.find('<svg')
     
     if svg_start != -1 and start_tag_end != -1:
-        # Find the closing tag
         body = svg_str[start_tag_end+1:]
         body = body.replace('</svg>', '')
         return viewbox, body.strip()
@@ -25,96 +21,121 @@ try:
     kai_school = read_file('Kaischoollogo.svg')
     kai_bot = read_file('Kaibotlogo.svg')
     
-    # Replace black fills with White (#FFFFFF) for visibility on dark background
-    # This preserves the logo's neutrality while making it visible
     kai_school_content = kai_school.replace('fill="#020202"', 'fill="#FFFFFF"')
+    kai_school_content = kai_school_content.replace('fill="#010101"', 'fill="#FFFFFF"')
     kai_bot_content = kai_bot.replace('fill="#010101"', 'fill="#FFFFFF"')
+    kai_bot_content = kai_bot_content.replace('fill="#020202"', 'fill="#FFFFFF"')
     
     ks_vb, ks_inner = extract_svg_content(kai_school_content)
     kb_vb, kb_inner = extract_svg_content(kai_bot_content)
     
-    # Advanced Anime.js-style SVG Template
-    # Changes: 
-    # 1. Logos are now White (neutral) instead of Cyan
-    # 2. Both logos constrained to identical 160x160 box for visual consistency
-    # 3. Cleaned up background and glow effects
-    svg_template = f'''<svg width="800" height="350" viewBox="0 0 800 350" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <!-- Dark SaaS Background -->
-        <linearGradient id="bg-grad" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" style="stop-color:#0f172a;stop-opacity:1" />
-          <stop offset="100%" style="stop-color:#1e293b;stop-opacity:1" />
-        </linearGradient>
-        
-        <!-- Subtle Glow for White Logos -->
-        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-          <feMerge>
-            <feMergeNode in="coloredBlur"/>
-            <feMergeNode in="SourceGraphic"/>
-          </feMerge>
-        </filter>
-        
-        <!-- Circuit Line Gradient -->
-        <linearGradient id="line-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#38bdf8" stop-opacity="0" />
-          <stop offset="50%" stop-color="#38bdf8" stop-opacity="1" />
-          <stop offset="100%" stop-color="#38bdf8" stop-opacity="0" />
-        </linearGradient>
-      </defs>
+    ks_parts = ks_vb.split()
+    kb_parts = kb_vb.split()
+    ks_w, ks_h = float(ks_parts[2]), float(ks_parts[3])
+    kb_w, kb_h = float(kb_parts[2]), float(kb_parts[3])
+    
+    ks_ratio = ks_w / ks_h
+    kb_ratio = kb_w / kb_h
+    
+    logo_height = 220
+    ks_display_w = int(logo_height * ks_ratio)
+    ks_display_h = logo_height
+    kb_display_w = int(logo_height * kb_ratio)
+    kb_display_h = logo_height
+    
+    ks_x = int(225 - ks_display_w / 2)
+    kb_x = int(675 - kb_display_w / 2)
+    
+    svg_template = f'''<svg width="900" height="400" viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#0F172A" stop-opacity="1"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366F1" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#06B6D4" stop-opacity="1"/>
+    </linearGradient>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="softglow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
 
-      <!-- Background Container -->
-      <rect width="800" height="350" rx="16" fill="url(#bg-grad)" stroke="#334155" stroke-width="1" />
+  <!-- Background -->
+  <rect width="900" height="400" rx="20" fill="url(#bg-grad)" stroke="#1E293B" stroke-width="1"/>
+
+  <!-- Subtle dot grid -->
+  <pattern id="dots" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse">
+    <circle cx="15" cy="15" r="0.8" fill="#6366F1" opacity="0.06"/>
+  </pattern>
+  <rect width="900" height="400" rx="20" fill="url(#dots)"/>
+
+  <!-- Top accent bar -->
+  <rect x="0" y="0" width="900" height="3" rx="1.5" fill="url(#accent)" opacity="0.8"/>
+  
+  <!-- Decorative accent glow behind logos -->
+  <ellipse cx="225" cy="160" rx="130" ry="120" fill="#6366F1" opacity="0.03" filter="url(#softglow)"/>
+  <ellipse cx="675" cy="160" rx="140" ry="120" fill="#06B6D4" opacity="0.03" filter="url(#softglow)"/>
+
+  <!-- Center divider - subtle vertical line -->
+  <line x1="450" y1="80" x2="450" y2="320" stroke="url(#accent)" stroke-width="0.5" opacity="0.15"/>
+  
+  <!-- Center connecting dot (animated) -->
+  <circle cx="450" cy="200" r="5" fill="url(#accent)">
+    <animate attributeName="opacity" values="0.3;1;0.3" dur="3s" repeatCount="indefinite"/>
+    <animate attributeName="r" values="5;7;5" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- LEFT: KAISCHOOL -->
+  <g>
+    <!-- Card background -->
+    <rect x="{ks_x - 15}" y="48" width="{ks_display_w + 30}" height="{logo_height + 100}" rx="16" fill="#FFFFFF" opacity="0.02" stroke="#6366F1" stroke-width="0.5" stroke-opacity="0.15"/>
+    
+    <g transform="translate({ks_x}, 68)">
+      <animateTransform attributeName="transform" type="translate" values="{ks_x},68; {ks_x},58; {ks_x},68" dur="6s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.45 0 0.55 1; 0.45 0 0.55 1"/>
       
-      <!-- Animated Grid (Subtler) -->
-      <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#38bdf8" stroke-width="0.5" opacity="0.05"/>
-      </pattern>
-      <rect width="800" height="350" rx="16" fill="url(#grid)">
-        <animateTransform attributeName="transform" type="translate" from="0 0" to="0 40" dur="4s" repeatCount="indefinite" />
-      </rect>
+      <!-- Logo -->
+      <svg width="{ks_display_w}" height="{ks_display_h}" viewBox="{ks_vb}" preserveAspectRatio="xMidYMid meet" filter="url(#glow)">
+        {ks_inner}
+      </svg>
+    </g>
+    
+    <!-- Label -->
+    <text x="{ks_x + ks_display_w/2}" y="320" text-anchor="middle" font-family="'Inter', 'Segoe UI', -apple-system, sans-serif" font-weight="700" font-size="20" fill="#E2E8F0" letter-spacing="6">KAISCHOOL</text>
+    <text x="{ks_x + ks_display_w/2}" y="342" text-anchor="middle" font-family="'Inter', 'Segoe UI', -apple-system, sans-serif" font-weight="400" font-size="11" fill="#64748B" letter-spacing="3">SCHOOL MANAGEMENT</text>
+  </g>
 
-      <!-- Connecting Circuit Line -->
-      <!-- Drawn between center points: ~250 (Left) to ~550 (Right) -->
-      <path d="M 330 155 L 470 155" stroke="url(#line-grad)" stroke-width="2" stroke-dasharray="140" stroke-dashoffset="140" opacity="0.8">
-        <animate attributeName="stroke-dashoffset" values="140;0;140" dur="3s" repeatCount="indefinite" fill="freeze" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.4 0 0.2 1; 0.4 0 0.2 1" />
-      </path>
-      <circle cx="400" cy="155" r="4" fill="#38bdf8">
-        <animate attributeName="opacity" values="0;1;0" dur="3s" repeatCount="indefinite" />
-      </circle>
+  <!-- RIGHT: KAIBOT -->
+  <g>
+    <!-- Card background -->
+    <rect x="{kb_x - 15}" y="48" width="{kb_display_w + 30}" height="{logo_height + 100}" rx="16" fill="#FFFFFF" opacity="0.02" stroke="#06B6D4" stroke-width="0.5" stroke-opacity="0.15"/>
+    
+    <g transform="translate({kb_x}, 68)">
+      <animateTransform attributeName="transform" type="translate" values="{kb_x},68; {kb_x},78; {kb_x},68" dur="6s" begin="1s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.45 0 0.55 1; 0.45 0 0.55 1"/>
+      
+      <!-- Logo -->
+      <svg width="{kb_display_w}" height="{kb_display_h}" viewBox="{kb_vb}" preserveAspectRatio="xMidYMid meet" filter="url(#glow)">
+        {kb_inner}
+      </svg>
+    </g>
+    
+    <!-- Label -->
+    <text x="{kb_x + kb_display_w/2}" y="320" text-anchor="middle" font-family="'Inter', 'Segoe UI', -apple-system, sans-serif" font-weight="700" font-size="20" fill="#E2E8F0" letter-spacing="6">KAIBOT</text>
+    <text x="{kb_x + kb_display_w/2}" y="342" text-anchor="middle" font-family="'Inter', 'Segoe UI', -apple-system, sans-serif" font-weight="400" font-size="11" fill="#64748B" letter-spacing="3">AI AGENT</text>
+  </g>
 
-      <!-- LEFT LOGO: KAISCHOOL -->
-      <!-- Centered at x=200 -->
-      <g transform="translate(150, 60)">
-        <!-- Floating Animation -->
-        <animateTransform attributeName="transform" type="translate" values="150,60; 150,50; 150,60" dur="6s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.45 0 0.55 1; 0.45 0 0.55 1" />
-        
-        <!-- Logo Container: 200x200 box, centered content -->
-        <!-- Using preserveAspectRatio="xMidYMid meet" to force same size constraints -->
-        <svg width="200" height="200" viewBox="{ks_vb}" preserveAspectRatio="xMidYMid meet" filter="url(#glow)">
-          {ks_inner}
-        </svg>
-        
-        <!-- Label -->
-        <text x="100" y="230" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-weight="600" fill="#cbd5e1" font-size="16" letter-spacing="4">KAISCHOOL</text>
-      </g>
-
-      <!-- RIGHT LOGO: KAIBOT -->
-      <!-- Centered at x=600 (450 + 150 offset) -->
-      <g transform="translate(450, 60)">
-         <!-- Floating Animation (Staggered) -->
-        <animateTransform attributeName="transform" type="translate" values="450,60; 450,70; 450,60" dur="6s" begin="1s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.45 0 0.55 1; 0.45 0 0.55 1" />
-        
-        <!-- Logo Container: 200x200 box, centered content -->
-        <svg width="200" height="200" viewBox="{kb_vb}" preserveAspectRatio="xMidYMid meet" filter="url(#glow)">
-          {kb_inner}
-        </svg>
-        
-        <!-- Label -->
-        <text x="100" y="230" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-weight="600" fill="#cbd5e1" font-size="16" letter-spacing="4">KAIBOT</text>
-      </g>
-
-    </svg>'''
+</svg>'''
     
     with open('profile-header.svg', 'w') as f:
         f.write(svg_template)
