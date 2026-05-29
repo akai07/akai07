@@ -55,11 +55,11 @@
   <tr>
     <td width="50%" align="center">
       <br>
-      <img src="https://github-readme-stats.vercel.app/api?username=akai07&show_icons=true&count_private=true&hide_border=true&title_color=6366F1&icon_color=06B6D4&text_color=E2E8F0&bg_color=0D1117&include_all_commits=true&rank_icon=github&border_radius=16" width="395" alt="GitHub Stats" />
+      <img src="https://raw.githubusercontent.com/akai07/akai07/main/assets/github-stats.svg" width="395" alt="GitHub Stats" />
     </td>
     <td width="50%" align="center">
       <br>
-      <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=akai07&layout=compact&hide_border=true&title_color=6366F1&text_color=E2E8F0&bg_color=0D1117&langs_count=8&border_radius=16" width="395" alt="Top Languages" />
+      <img src="https://raw.githubusercontent.com/akai07/akai07/main/assets/top-langs.svg" width="395" alt="Top Languages" />
     </td>
   </tr>
   <tr>
