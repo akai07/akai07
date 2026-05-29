@@ -55,25 +55,24 @@
   <tr>
     <td width="50%" align="center">
       <br>
-      <img src="https://github-readme-stats.vercel.app/api?username=akai07&show_icons=true&count_private=true&hide_border=true&title_color=6366F1&icon_color=06B6D4&text_color=E2E8F0&bg_color=0D1117&include_all_commits=true&rank_icon=github&border_radius=16" width="100%" alt="GitHub Stats" />
+      <img src="https://github-readme-stats.vercel.app/api?username=akai07&show_icons=true&count_private=true&hide_border=true&title_color=6366F1&icon_color=06B6D4&text_color=E2E8F0&bg_color=0D1117&include_all_commits=true&rank_icon=github&border_radius=16" width="395" alt="GitHub Stats" />
     </td>
     <td width="50%" align="center">
       <br>
-      <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=akai07&layout=compact&hide_border=true&title_color=6366F1&text_color=E2E8F0&bg_color=0D1117&langs_count=8&border_radius=16" width="100%" alt="Top Languages" />
+      <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=akai07&layout=compact&hide_border=true&title_color=6366F1&text_color=E2E8F0&bg_color=0D1117&langs_count=8&border_radius=16" width="395" alt="Top Languages" />
     </td>
   </tr>
   <tr>
     <td width="50%" align="center">
       <br>
-      <a href="https://leetcard.jacoblin.cool/akai07?theme=dark&font=Plus%20Jakarta%20Sans&ext=heatmap" target="_blank">
-        <img src="https://leetcard.jacoblin.cool/akai07?theme=dark&font=Plus%20Jakarta%20Sans&ext=contest&width=500" width="100%" alt="LeetCode Stats" />
+      <a href="https://leetcode.com/u/akai07/" target="_blank">
+        <img src="https://leetcard.jacoblin.cool/akai07?theme=dark&font=Plus%20Jakarta%20Sans&ext=contest&width=500" width="395" alt="LeetCode Stats" />
       </a>
     </td>
     <td width="50%" align="center">
       <br>
-      <!-- TryHackMe badge - updated daily via GitHub Action -->
       <a href="https://tryhackme.com/p/Akai07" target="_blank">
-        <img src="https://raw.githubusercontent.com/akai07/akai07/main/assets/thm_badge.svg" width="85%" alt="TryHackMe Stats" />
+        <img src="https://raw.githubusercontent.com/akai07/akai07/main/assets/thm_badge.svg" width="395" alt="TryHackMe Stats" />
       </a>
     </td>
   </tr>
@@ -88,7 +87,7 @@
 <!-- ============================================================ -->
 
 <div align="center">
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=akai07&hide_border=true&background=0D1117&stroke=6366F1&ring=6366F1&fire=06B6D4&currStreakNum=E2E8F0&sideNums=94A3B8&currStreakLabel=6366F1&sideLabels=94A3B8&dates=64748B&border_radius=16" width="72%" alt="GitHub Streak" />
+  <img src="https://github-readme-streak-stats.herokuapp.com/?user=akai07&hide_border=true&background=0D1117&stroke=6366F1&ring=6366F1&fire=06B6D4&currStreakNum=E2E8F0&sideNums=94A3B8&currStreakLabel=6366F1&sideLabels=94A3B8&dates=64748B&border_radius=16" width="800" alt="GitHub Streak" />
 </div>
 
 <br><br>
